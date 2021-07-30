@@ -14,21 +14,35 @@ class Undangan extends REST_Controller {
         $this->load->database();
     }
 
-    function index_get()
-    {
-        $this->load->model('UndanganModel');
-        $domain = $this->get('domain');
-        if ($this->UndanganModel->getDomain($domain) == false) {
-            $data = array('Tidak Ada Apapun Disini');
-        }else{
-            $data     = $this->UndanganModel->getDomain($domain);
-            $result   = $this->UndanganModel->getMempelai($data->id_user);
-            // $result['acara']      = $this->UndanganModel->getAcara($data->id_user);
-            // $result['komen']      = $this->UndanganModel->getKomen($data->id_user);
-        }
-        // $data['rules'] = $this->UndanganModel->getRules($domain) == false ? array('data' => 'Tidak Ada Apapun Disini') : array('data' => $this->UndanganModel->getDomain($domain));
-        $this->response($result, 200);
-    }
+	public function sampul_get()
+	{
+		$this->load->model('UndanganModel');
+		$domain = $this->get('domain');
+		$data = $this->UndanganModel->getDomain($domain);
+		if ($data == false) {
+			$response = array('Tidak Ada Apapun Disini');
+			$code = 404;
+		}else{
+			$response['data'] = $this->UndanganModel->getDataSampul($data->id_user);
+			$code = 200;
+		} $this->response($response, $code);
+	}
+
+    // function index_get()
+    // {
+    //     $this->load->model('UndanganModel');
+    //     $domain = $this->get('domain');
+    //     if ($this->UndanganModel->getDomain($domain) == false) {
+    //         $data = array('Tidak Ada Apapun Disini');
+    //     }else{
+    //         $data     = $this->UndanganModel->getDomain($domain);
+    //         $result   = $this->UndanganModel->getMempelai($data->id_user);
+    //         // $result['acara']      = $this->UndanganModel->getAcara($data->id_user);
+    //         // $result['komen']      = $this->UndanganModel->getKomen($data->id_user);
+    //     }
+    //     // $data['rules'] = $this->UndanganModel->getRules($domain) == false ? array('data' => 'Tidak Ada Apapun Disini') : array('data' => $this->UndanganModel->getDomain($domain));
+    //     $this->response($result, 200);
+    // }
 
 	public function data_get()
 	{
@@ -37,13 +51,23 @@ class Undangan extends REST_Controller {
         if ($this->UndanganModel->getDomain($domain) == false) {
             $data = array('Tidak Ada Apapun Disini');
         }else{
-            $data     = $this->UndanganModel->getDomain($domain);
+            $data     			  = $this->UndanganModel->getDomain($domain);
+			$result	   			  = $this->UndanganModel->getFlagAcara($data->id_user);
             $result['mempelai']   = $this->UndanganModel->getMempelai($data->id_user);
             $result['acara']      = $this->UndanganModel->getAcara($data->id_user);
             $result['komen']      = $this->UndanganModel->getKomen($data->id_user);
+            $result['amplop']     = $this->UndanganModel->getAmplop($data->id_user);
+			$result['album']	  = $this->UndanganModel->getAlbum($data->id_user);
+			$result['gift']	  	  = $this->UndanganModel->getGift($data->id_user);
+			$result['data']		  = $this->UndanganModel->getData($data->id_user);
         }
-        // $data['rules'] = $this->UndanganModel->getRules($domain) == false ? array('data' => 'Tidak Ada Apapun Disini') : array('data' => $this->UndanganModel->getDomain($domain));
         $this->response($result, 200);
+        // $data['rules'] = $this->UndanganModel->getRules($domain) == false ? array('data' => 'Tidak Ada Apapun Disini') : array('data' => $this->UndanganModel->getDomain($domain));
+	}
+
+	function mempelai_get()
+	{
+		echo 'Ini metod Post';
 	}
 
     //Menampilkan data kontak
