@@ -227,13 +227,6 @@ class Undangan extends REST_Controller {
 	
 	}
 
-	public function domain_get(){
-
-	function mempelai_get()
-	{
-		echo 'Ini metod Post';
-	}
-
     //Menampilkan data kontak
     // function index_get() {
     //     $web = $this->uri->getSegment(2); //memabaca domain user
