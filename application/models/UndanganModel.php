@@ -13,7 +13,14 @@ class UndanganModel extends CI_Model {
 
     public function getMempelai($id_user)
     {
+<<<<<<< HEAD
       
+=======
+        $this->db->where('mempelai.id_user', $id_user);
+        $this->db->join('data', 'mempelai.id_user = data.id_user');
+        $query = $this->db->get('mempelai');
+        return $query->row();
+>>>>>>> ab7a21b50a61840ebc678c749d6537871e386d80
     }
 
     public function getAcara($id_user)
@@ -81,6 +88,7 @@ class UndanganModel extends CI_Model {
         return $query->row();    
     }
 
+<<<<<<< HEAD
     public function getDataMempelai($domain = null)
     {
         $this->db->select('mempelai.*');
@@ -146,5 +154,13 @@ class UndanganModel extends CI_Model {
         return $query->result();    
     }
     
+=======
+    public function getDataMempelai($id_user)
+    {
+        $this->db->select('*');
+        $query = $this->db->get('mempelai'); //Diambil dari table Mempelai
+        return $query->row();
+    }
+>>>>>>> ab7a21b50a61840ebc678c749d6537871e386d80
 
 }
