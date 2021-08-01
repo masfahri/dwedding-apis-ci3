@@ -206,13 +206,6 @@ class Undangan extends REST_Controller {
 
 	public function gift_get(){
 
-		$gift = $this->db->get('gift')->result();
-		$this->response($gift, 200);
-	
-	}
-
-	public function domain_get(){
-
 		$this->load->model('UndanganModel');
 		$domain = $this->get('domain');
         if ($domain == null) {
@@ -232,6 +225,10 @@ class Undangan extends REST_Controller {
 			}
         }
 	
+	}
+
+	public function domain_get(){
+
 	}
 
     //Menampilkan data kontak
