@@ -11,11 +11,6 @@ class UndanganModel extends CI_Model {
         return $query->row();
     }
 
-    public function getMempelai($id_user)
-    {
-      
-    }
-
     public function getAcara($id_user)
     {
         return $this->db->where('id_user', $id_user)->get('acara')->row();
