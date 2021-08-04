@@ -181,6 +181,36 @@ class Undangan extends REST_Controller {
 	
 	}
 
+	function komen_post() {
+		$this->load->model('UndanganModel');
+		$domain = $this->post('domain');
+		if (empty($this->post('domain'))) {
+			$this->response([
+				'status' => false,
+				'message'  => '404'
+			], REST_Controller::HTTP_NOT_FOUND);
+		}else{
+			$id_user = $this->UndanganModel->getIDUserbyDomain($this->post('domain')); 
+			$data = array(
+				'id_user'			=> $id_user->id_user,
+				'nama_komentar' 	=> $this->post('nama'),
+				'isi_komentar'  	=> $this->post('komentar')
+			);
+			try {
+				$insert = $this->db->insert('komen', $data);
+				if ($insert) {
+					$response['data'] = $data;
+					$response['success'] = true;
+					$this->response($response, 200);
+				} else {
+					throw new \Exception("Some message goes here");
+				}
+			} catch (\Exception $e) {
+				$this->response(array('success' => false, 'message' => $e->getMessage(), 502));
+			}
+		}
+	}
+
 	public function amplop_get(){
 
 		$this->load->model('UndanganModel');
@@ -211,7 +241,7 @@ class Undangan extends REST_Controller {
         if ($domain == null) {
 			$this->response(array('Domain Tidak Ditemkan'), REST_Controller::HTTP_NOT_FOUND );
         }else{
-        	$amplop = $this->UndanganModel->getDataAmplop($domain);
+        	$amplop = $this->UndanganModel->getDataGift($domain);
 			if ($amplop) {
 				$this->response([
 					'status' => true,
@@ -224,7 +254,43 @@ class Undangan extends REST_Controller {
 				], REST_Controller::HTTP_NOT_FOUND);
 			}
         }
-	
+	}
+
+	public function rsvp_get(){
+
+		$this->load->model('UndanganModel');
+		$domain = $this->get('domain');
+        if ($domain == null) {
+			$this->response(array('Domain Tidak Ditemkan'), REST_Controller::HTTP_NOT_FOUND );
+        }else{
+        	$rsvp = $this->UndanganModel->getDataRsvp($domain);
+			if ($rsvp) {
+				$this->response([
+					'status' => true,
+					'data'  => $rsvp
+				], REST_Controller::HTTP_OK);
+			}else{
+				$this->response([
+					'status' => false,
+					'message'  => '404'
+				], REST_Controller::HTTP_NOT_FOUND);
+			}
+        }
+	}
+
+	function rsvp_post() {
+		$data = array(
+			'domain'		=> $this->post('domain'),
+			'nama' 			=> $this->post('nama'),
+			'kehadiran'  	=> $this->post('kehadiran'),
+			'jumlah'		=> $this->post('jumlah')
+		);
+		$insert = $this->db->insert('rsvp', $data);
+		if ($insert) {
+			$this->response($data, 200);
+		} else {
+			$this->response(array('status' => 'fail', 502));
+		}
 	}
 
     //Menampilkan data kontak

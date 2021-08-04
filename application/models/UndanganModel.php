@@ -79,9 +79,9 @@ class UndanganModel extends CI_Model {
     public function getDataMempelai($domain = null)
     {
         $this->db->select('mempelai.*');
-        $this->db->join('mempelai', 'order.id_user = mempelai.id_user');
+        $this->db->join('order', 'mempelai.id_user = order.id_user');
         $this->db->where('order.domain', $domain);
-        $query = $this->db->get('order');
+        $query = $this->db->get('mempelai');
         return $query->row();    
     }
 
@@ -89,36 +89,37 @@ class UndanganModel extends CI_Model {
     {
         $this->db->select('jam_akad, tempat_akad, alamat_akad, direction_akad, tanggal_resepsi,jam_resepsi,tempat_resepsi,
                             alamat_resepsi,direction_resepsi');
-        $this->db->join('acara', 'order.id_user = acara.id_user');
+        $this->db->join('order', 'acara.id_user = order.id_user');
         $this->db->where('order.domain', $domain);
-        $query = $this->db->get('order');
+        $query = $this->db->get('acara');
         return $query->row();    
     }
 
     public function getDataLamaran($domain = null)
     {
         $this->db->select('tanggal_lamaran,jam_lamaran,tempat_lamaran,alamat_lamaran,direction_lamaran,longlat_lamaran');
-        $this->db->join('acara', 'order.id_user = acara.id_user');
+        $this->db->join('order', 'acara.id_user = order.id_user');
         $this->db->where('order.domain', $domain);
-        $query = $this->db->get('order');
+        $query = $this->db->get('acara');
         return $query->row();    
     }
 
     public function getDataLokasi($domain = null)
     {
         $this->db->select('maps');
-        $this->db->join('data', 'order.id_user = data.id_user');
+        $this->db->join('order', 'data.id_user = order.id_user');
         $this->db->where('order.domain', $domain);
-        $query = $this->db->get('order');
+        $query = $this->db->get('data');
         return $query->row();    
     }
 
     public function getDataKomen($domain = null)
     {
-        $this->db->select('*');
-        $this->db->join('komen', 'order.id_user = komen.id_user');
+        $this->db->select('komen.*');
+        $this->db->join('order', 'komen.id_user = order.id_user');
         $this->db->where('order.domain', $domain);
-        $query = $this->db->get('order');
+        $this->db->order_by('komen.created_at', 'desc' );
+        $query = $this->db->get('komen');
         return $query->result();    
     }
 
@@ -135,11 +136,26 @@ class UndanganModel extends CI_Model {
     public function getDataGift($domain = null)
     {
         $this->db->select('gift.*');
-        $this->db->join('gift', 'order.id_user = gift.id_user');
+        $this->db->join('order', 'gift.id_user = order.id_user');
         $this->db->where('order.domain', $domain);
-        $query = $this->db->get('order');
+        $query = $this->db->get('gift');
+        return $query->result();    
+    }
+
+    public function getDataRsvp($domain = null)
+    {
+        $this->db->select('*');
+        $this->db->where('rsvp.domain', $domain);
+        $query = $this->db->get('rsvp');
         return $query->result();    
     }
     
+    public function getIDUserbyDomain($domain = null)
+    {
+        $this->db->select('id_user');
+        $this->db->where('domain', $domain);
+        $query = $this->db->get('order');
+        return $query->row();
+    }
 
 }
