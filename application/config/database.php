@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '103.120.65.71',
-	'username' => 'kvtlssho',
-	'password' => 'D191t4lw3dd1n9!',
+	'hostname' => '35.213.181.154',
+	'username' => 'dwuser',
+	'password' => 'digitalw3dding',
 	'database' => 'kvtlssho_db_nikahan',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
